@@ -60,7 +60,9 @@ const toogle=id=>{
     addToLocalStorage(todos);
 }
 const deleteTodo=id=>{
-    todos=todos.filter(x=>x.id==id)
+    todos=todos.filter(function(elementNiza){
+        return elementNiza.id!=id;
+    });
     addToLocalStorage(todos);
 
 }
