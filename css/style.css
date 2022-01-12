@@ -22,9 +22,9 @@ ul {
 }
 
 #container {
+    min-width: 700px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     padding: 20px;
 }
@@ -37,12 +37,11 @@ h1 {
 /* forma -> todo-form */
 
 .todo-form {
-    max-width: 100%;
     margin: 40px 0;
 }
 
 .todo-input {
-    width: 60%;
+    width: 350px;
     border: 0;
     outline: 0;
     border-radius: 10px;
@@ -64,8 +63,7 @@ h1 {
 /* stavke liste -> todo-items*/
 
 .todo-items {
-    min-width: 50%;
-    max-width: 100%;
+    min-width: 450px;
 }
 
 .item {
