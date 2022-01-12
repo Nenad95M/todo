@@ -1,10 +1,10 @@
-const todo =document.querySelector('.todo-form');
+const todoForm =document.querySelector('.todo-form');
 const todoInput=document.querySelector('.todo-input');
 const todoItemsList=document.querySelector('.todo-items');
 
 let todos=[];
 
-todo.addEventListener('submit',function(event){
+todoForm.addEventListener('submit',function(event){
 event.preventDefault();
 addTodo(todoInput.value);
 })
@@ -12,7 +12,7 @@ addTodo(todoInput.value);
 
 
 const addTodo=item=>{
-if (item){
+if (item !==''){
     const todo={
         id:Date.now(),
         name: item,
@@ -20,12 +20,13 @@ if (item){
     }
     todos.push(todo);
     addToLocalStorage(todos);
-    todoInput.innerHTML='';
+    todoInput.value='';
 }
 }
-const renderTodos=niz=>{
+
+const renderTodos=todosArray=>{
 todoItemsList.innerHTML='';
-niz.map(elementNiza=>{
+todosArray.map(elementNiza=>{
     const checked=elementNiza.completed ?'checked':null;
     const li=document.createElement('li');
     li.setAttribute('class','item');
@@ -39,9 +40,9 @@ niz.map(elementNiza=>{
 })
 }
 
-const addToLocalStorage=niz=>{
-    localStorage.setItem('todosKljuc',JSON.stringify(niz));//pretvara u string
-    renderTodos(niz);
+const addToLocalStorage=todosArray=>{
+    localStorage.setItem('todosKljuc',JSON.stringify(todosArray));//pretvara u string
+    renderTodos(todosArray);
 }
 const getFromLocalStorage=()=>{
 const reference=localStorage.getItem('todosKljuc');
@@ -50,17 +51,26 @@ if(reference){
     renderTodos(todos);
 }
 }
-const toogle=idParametar=>{
+const toogle=id=>{
     todos.map(elementNiza=>{
-        if(elementNiza.id ==idParametar){
+        if(elementNiza.id ==id){
             elementNiza.completed=!elementNiza.completed;
         }
-    })
+    });
     addToLocalStorage(todos);
 }
-const deleteTodo=idParametar=>{
-    todos=todos.filter(x=>x.id==idParametar)
+const deleteTodo=id=>{
+    todos=todos.filter(x=>x.id==id)
     addToLocalStorage(todos);
 
 }
 getFromLocalStorage();
+
+todoItemsList.addEventListener('click',function(event){
+    if(event.target.type=='checkbox'){
+    toogle(event.target.parentElement.getAttribute('data-key'));
+    }
+    if (event.target.classList.contains('delete-button')){
+        deleteTodo(event.target.parentElement.getAttribute('data-key'))
+    }
+});
