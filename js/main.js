@@ -1,78 +1,112 @@
-const todoForm =document.querySelector('.todo-form');
-const todoInput=document.querySelector('.todo-input');
-const todoItemsList=document.querySelector('.todo-items');
-
-let todos=[];
-
-todoForm.addEventListener('submit',function(event){
-event.preventDefault();
-addTodo(todoInput.value);
-})
-
-
-
-const addTodo=item=>{
-if (item !==''){
-    const todo={
-        id:Date.now(),
-        name: item,
-        completed:false
-    }
-    todos.push(todo);
-    addToLocalStorage(todos);
-    todoInput.value='';
-}
+* {
+    padding: 0;
+    margin: 0;
 }
 
-const renderTodos=todosArray=>{
-todoItemsList.innerHTML='';
-todosArray.map(elementNiza=>{
-    const checked=elementNiza.completed ?'checked':null;
-    const li=document.createElement('li');
-    li.setAttribute('class','item');
-    li.setAttribute('data-key',elementNiza.id);
-    li.innerHTML=`
-    <input type='checkbox' class='checkbox' ${checked}>
-    ${elementNiza.name}
-    <button class='delete-button'>X</button>
-    `
-    todoItemsList.appendChild(li);
-})
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    font-family: sans-serif;
+    background: linear-gradient(#0081f0,#DC281E);
 }
 
-const addToLocalStorage=todosArray=>{
-    localStorage.setItem('todosKljuc',JSON.stringify(todosArray));//pretvara u string
-    renderTodos(todosArray);
+button:hover {
+    cursor: pointer;
+    background: green;
 }
-const getFromLocalStorage=()=>{
-const reference=localStorage.getItem('todosKljuc');
-if(reference){
-    todos=JSON.parse(reference);//pretvara string u niz iz JSON-a
-    renderTodos(todos);
-}
-}
-const toogle=id=>{
-    todos.map(elementNiza=>{
-        if(elementNiza.id ==id){
-            elementNiza.completed=!elementNiza.completed;
-        }
-    });
-    addToLocalStorage(todos);
-}
-const deleteTodo=id=>{
-    todos=todos.filter(function(elementNiza){
-        return elementNiza.id!=id;
-    });
-    addToLocalStorage(todos);
 
+ul {
+    list-style-type: none;
 }
-getFromLocalStorage();
 
-todoItemsList.addEventListener('click',function(event){
-    if(event.target.type=='checkbox'){
-    toogle(event.target.parentElement.getAttribute('data-key'));
-    }
-    if (event.target.classList.contains('delete-button')){
-        deleteTodo(event.target.parentElement.getAttribute('data-key'))
-    }
-});
+#container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+h1 {
+    color: #fff;
+    font-size: 40px;
+}
+
+/* forma -> todo-form */
+
+.todo-form {
+    max-width: 100%;
+    margin: 40px 0;
+}
+
+.todo-input {
+    width: 60%;
+    border: 0;
+    outline: 0;
+    border-radius: 10px;
+    padding: 10px;
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.add-button {
+    background: #ff7b7b;
+    color: #fff;
+    border: 0;
+    outline: 0;
+    border-radius: 10px;
+    padding: 10px 30px;
+    font-size: 20px;
+}
+
+/* stavke liste -> todo-items*/
+
+.todo-items {
+    min-width: 50%;
+    max-width: 100%;
+}
+
+.item {
+    background: #fff;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.item:first-child {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.item:last-child {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.checkbox {
+    margin-right: 10px;
+}
+
+.delete-button {
+    float: right;
+    background: red;
+    border: 0;
+    outline: 0;
+    border-radius: 10px;
+    padding: 1px 10px;
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.checked {
+    text-decoration: line-through;
+}
+
+
+
+
+
+
